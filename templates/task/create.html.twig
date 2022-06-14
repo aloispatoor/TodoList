@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create New List{% endblock %}
+
+{% block body %}
+<h1>Create New Task</h1>
+    <main>
+        <section>
+            {{form_start(form)}}
+                {{form_row(form.title, {
+                            'label' : 'Title : ',
+                            'attr': {'class': 'form-control'}
+                        })}}
+                {{form_row(form.done, {
+                            'label' : 'Done : ',
+                            'attr': {'class': 'form-check-input'}
+                        })}}
+                <button type="submit">{{ action == 'Edit' ? "Edit task" : "Create task"}}</button>
+            {{form_end(form)}}
+        </section>
+    </main>
+{% endblock %}

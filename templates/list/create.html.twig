@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create New List{% endblock %}
+
+{% block body %}
+    <h1>Create New List</h1>
+    <main>
+        <section>
+            {{form_start(form)}}
+            {{form_row(form.name, {
+                        'label' : 'Name : ',
+                        'attr': {'class': 'form-control'}
+                    })}}
+            <button type="submit">Create</button>
+            {{form_end(form)}}
+        </section>
+    </main>
+{% endblock %}

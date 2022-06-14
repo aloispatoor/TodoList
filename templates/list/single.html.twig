@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{list.name}}{% endblock %}
+
+{% block body %}
+<main>
+    <section>
+        <h1>{{list.name}}</h1>
+        {% for task in tasks %}
+            <article>
+                <h2>{{task.title}}</h2>
+                {% if task.done == 1 %}
+                <p>Done</p>
+                {% else %}
+                <p>Not done yet</p>
+                {% endif %}
+                <div id="buttons">
+                    <a class="btn btn-secondary" href="{{ path('app_task_edit', {id: task.id})}}">Edit</a>
+                    <a class="btn btn-secondary">Done / Not done yet</a>             
+                </div>
+            </article>
+        {% endfor %}
+        <div>
+            <a href="{{ path('app_alldonetask_delete', {id: list.id})}}" class="btn btn-danger">Delete all done tasks</a>
+            <a href="{{ path('app_task_create')}}" class="btn btn-primary">Create new task</a>
+        </div>
+    </section>
+</main>
+{% endblock %}

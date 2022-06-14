@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listing{% endblock %}
+
+{% block body %}
+    <main>
+        <section>
+            <h1>To do lists</h1>
+            <article>
+                {% for list in lists %}
+                    <h2>{{list.name}}</h2>
+                    <p>{{list.tasks|length}}</p>
+                    <div id="buttons">
+                        <a href="{{ path('app_list', {id: list.id})}}" class="btn btn-secondary">Details</a>
+                        <a href="{{ path('app_list_delete', {id: list.id})}}" class="btn btn-danger">Delete</a>
+                    </div>
+                {% else %}
+                    <p>There's no to do lists yet</p>
+                {% endfor %}
+                <a href="{{ path('app_list_create')}}" class="btn btn-primary">New List</a>
+            </article>
+        </section>
+    </main>
+{% endblock %}
