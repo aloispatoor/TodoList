@@ -16,7 +16,7 @@
                 {% endif %}
                 <div id="buttons">
                     <a class="btn btn-secondary" href="{{ path('app_task_edit', {id: task.id})}}">Edit</a>
-                    <a class="btn btn-secondary">Done / Not done yet</a>             
+                    <a class="btn btn-secondary" href="{{ path('app_task_done', {id: task.id})}}">Done / Not done yet</a>             
                 </div>
             </article>
         {% endfor %}

@@ -14,19 +14,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/task')]
 class TaskController extends AbstractController
 {
+    
     #[Route('/create', name: 'app_task_create')]
-    public function create(Request $request, EntityManagerInterface $em, Listing $list): Response
+    public function create(Request $request, EntityManagerInterface $em, Listing $listing): Response
     {
         $task = new Task(); //Déclaration d'une nouvelle instance de l'entité Task
+        // $list = Listing::getTasks();
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
         
-        if($form->isSubmitted() && $form->isValid()){
-            $task->setList($list);
+        if ($form->isSubmitted() && $form->isValid()){
+            $repo = $em->getRepository(Listing::class);
             $em->persist($task);
             $em->flush();
             
-            return $this->redirectToRoute('app_list', ['id' => $list->getId()]);
+            return $this->redirectToRoute('app_list', ['id' => $listing->getId()]);
         }
         
         return $this->renderForm('task/create.html.twig', [
@@ -37,17 +39,16 @@ class TaskController extends AbstractController
     }
 
     #[Route('/edit/{id<\d+>}', name: 'app_task_edit')]
-    public function edit(Task $task, Request $request, EntityManagerInterface $em, Listing $list): Response
+    public function edit(Task $task, Request $request, EntityManagerInterface $em, Listing $listing): Response
     {
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $task->setList($list);
+            $repo = $em->getRepository(Listing::class);
             $em->flush();
-            // $this->addFlash('success', 'Task edited successfully');
 
-            return $this->redirectToRoute('app_list');
+            return $this->redirectToRoute('app_list', ['id' => $listing->getId()]);
         }
         return $this->renderForm('task/create.html.twig', [
             'form' => $form,
@@ -56,19 +57,37 @@ class TaskController extends AbstractController
             ]);
     }
 
-    #[Route('/delete/{id}<\d+>}', name: 'app_alldonetask_delete')]
-    public function delete(EntityManagerInterface $em, Task $task, Listing $lists): Response
+    #[Route('/done/{id<\d+>}', name: 'app_task_done')]
+    public function done(Task $task, Request $request, EntityManagerInterface $em, Listing $listing): Response
     {
-        foreach($lists as $list){
+        $form = $this->createForm(DoneTaskType::class, $task);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $repo = $em->getRepository(Listing::class);
+            $em->flush();
+
+            return $this->redirectToRoute('app_list', ['id' => $listing->getId()]);
+        }
+        return $this->renderForm('list/single.html.twig', [
+            'form' => $form,
+            'task' => $task,
+            ]);
+    }
+
+    #[Route('/delete/{id}<\d+>}', name: 'app_alldonetask_delete')]
+    public function delete(EntityManagerInterface $em, Task $task, Listing $listing): Response
+    {
+        foreach ($listing as $list){
             $list->getTasks();
-            if($task->isDone()){
-                $em->remove($task);
+            if ($task->isDone()){
+                $list->removeTask($task);
                 $em->flush();
                 // $this->addFlash('deleteList', 'Task deleted successfully');
             }
         }
         
 
-        return $this->redirectToRoute('app_list', ['id' => $lists->getId()]);
+        return $this->redirectToRoute('app_list', ['id' => $listing->getId()]);
     }
 }

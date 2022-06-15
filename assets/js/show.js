@@ -1,10 +1,10 @@
-const show = document.getElementById('buttons');
-const btn = document.getElementsByClassName('btn')
+// const show = document.getElementById('buttons');
+// const buttons = document.querySelector('.btn')
 
-show.addEventListener('mouseover', function mouseOver(){
-    btn.style.display = 'inline';
-});
+// show.addEventListener('mouseover', function mouseOver(){
+//     buttons.style.display = 'inline';
+// });
 
-show.addEventListener('mouseleave', function mouseLeave(){
-    btn.style.display = "none";
-});
+// show.addEventListener('mouseleave', function mouseLeave(){
+//     buttons.style.display = "none";
+// });

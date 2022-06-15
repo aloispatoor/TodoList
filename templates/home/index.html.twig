@@ -9,7 +9,7 @@
             <article>
                 {% for list in lists %}
                     <h2>{{list.name}}</h2>
-                    <p>{{list.tasks|length}}</p>
+                    <p>{{list.tasks|length}} task(s)</p>
                     <div id="buttons">
                         <a href="{{ path('app_list', {id: list.id})}}" class="btn btn-secondary">Details</a>
                         <a href="{{ path('app_list_delete', {id: list.id})}}" class="btn btn-danger">Delete</a>
